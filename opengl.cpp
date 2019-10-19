@@ -6,9 +6,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "graphics/shader.h"
 #include "graphics/window.h"
-#include "graphics/camera.h"
+
+
 
 /*
 * Restarting from scratch on OpenGL, this time I'm trying to render a model from Blender
