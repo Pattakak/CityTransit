@@ -15,5 +15,7 @@ void renderObjects(Shader s);
 void initObjects();
 void framebuffer_size_callback(GLFWwindow* win, int width, int height);
 
+//Shader basicShader;
+
 
 #endif

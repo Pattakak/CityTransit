@@ -4,13 +4,16 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <math.h>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+//#include <glm/glm.hpp>
+//#include <glm/gtc/matrix_transform.hpp>
+//#include <glm/gtc/type_ptr.hpp>
 
 #include "window.h"
 #include "shader.h"
+#include "line.h"
+
 
 unsigned int VAO0, VBO0, EBO0; //All should be temporary, but won't be temporary :(
 int basicShaderID; 
@@ -19,6 +22,7 @@ int HEIGHT = 500;
 GLFWwindow* window;
 extern glm::mat4 view;
 Shader basicShader;
+Line *l;
 
 
 
@@ -45,10 +49,8 @@ void initWindow() {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); //Creates the callback function
     //glfwSetCursorPosCallback(window, cam::mouseCallback); //Set mouse callback function
     glEnable(GL_DEPTH_TEST);
-
     basicShader = Shader("shaders/basic.vs", "shaders/basic.fs");
     basicShaderID = basicShader.ID;
-
 
 }
 
@@ -78,6 +80,7 @@ void loop() {
 //Binds shaders and renders objects
 void renderObjects(Shader s) {
     glBindVertexArray(VAO0);
+
     s.use();
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
@@ -112,6 +115,11 @@ void initObjects() {
     glEnableVertexAttribArray(0);
     //glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*) (3 * sizeof(float)));
     //glEnableVertexAttribArray(1);
+
+    l = new Line((double) .75, (double) .75, (double) .25, (double) .25);
+    std::cout << "I make it here" << std::endl;
+    //(*l).getVAO();
+
 
 }
 
