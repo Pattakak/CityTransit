@@ -3,39 +3,49 @@ class User:
         self.iLocation = iLocation
         self.fLocation = fLocation
 
-    def distance(self):
-        iX = self.iLocation[0]
-        iY = self.iLocation[1]
-        fX = self.fLocation[0]
-        fY = self.fLocation[1]
-        dist = ((fX-iX)**2 + (fY-iY)**2)**0.5
-        return dist
+    def bestRoute(self, *trans):
+        route = [] #route is a list of trains and buses that take the user to their destination
+        list_of_transportations = [] #all trains and buses on the map
+        smallestDistance = 1000
+        for tran in trans:
+            list_of_transportations.append(tran)
+        nearest = self.nearest_trans(list_of_transportations)
+        fastestTran = list_of_transportations[0]
+        list_of_routes = nearest.intersectingRoute(list_of_transportations)
+        for tran in list_of_transportations:
+            for j in tran.stops:
+                if (j[0] - self.fLocation[0])**2 +  (j[1] - self.fLocation[1])**2 < smallestDistance:
+                    smallestDistance = (j[0] - self.fLocation[0])**2 +  (j[1] - self.fLocation[1])**2
+                    fastestTran = tran
+        route.append(fastestTran)
+        return route
 
-    def nearest_stop(self, transportations):
-        pass
+    def nearest_trans(self, transportations):
+        currenttrans = transportations[0]
+        currentstop = currenttrans[0]
+        for tran in transportations:
+            for stop in tran.stops:
+                if ((self.iLocation[0] - stop[0]) ** 2 + (self.iLocation[1] - stop[1]) ** 2) < (
+                        (self.iLocation[0] - stop[0]) ** 2 + (self.iLocation[1] - currentstop[1] ** 2)):
+                    currenttrans = tran
+                    currentstop = stop
+        return currenttrans
+
 
 class Transportation:
     def __init__(self, stops):
         self.stops = stops
 
-    def intersectingRoute(self, transportation, all_transportations):
+    def intersectingRoute(self, all_transportations):
         #returns the route that is intersecting with the passed route.
         list = []
-        t1_stops = transportation.stops
+        t1_stops = self.stops
         for i in range(len(t1_stops)):
             for j in range(len(all_transportations)):
                 for k in all_transportations:
                     if t1_stops[i] == all_transportations[j].stops[k]:
                         list.append(all_transportations[j])
         return list
-
-    def bestRoute(self, user, *trans):
-        route = [] #route is a list of trains and buses that take the user to their destination
-        list_of_transportations = [] #all trains and buses on the map
-        for tran in trans:
-            list_of_transportations.append(tran)
-        nearest = user.nearest_stop(list_of_transportations)
-        return route
 
 class Simulation:
     train1 = Transportation([[10, 14],[9,15],[8,16],[7,17],[6,18],[5,19],[4,20],[3,21],[11,13],[11,12],[11,11],[11,10],
@@ -53,7 +63,8 @@ class Simulation:
     bus4 = Transportation([[2,5],[3,5],[4,5],[5,5],[5,4],[5,3],[6,3],[7,3],[8,3],[8,4],[9,4],[10,4],[10,5],[11,5],
                            [12,5],[12,4],[12,3],[12,2],[13,2],[14,2]])
 
-    # start = input('Enter you start location as a list with x, y coordinates. \n  E.g. Enter "[2,5]" for x-coordinate 2 and y-coordinate 5.')
-    # end = input('Enter you destination as a list with x, y coordinates. \n  E.g. Enter "[2,5]" for x-coordinate 2 and y-coordinate 5.')
-    # preference = input('Do you want the cheapest or fastest way to get to your destination? Enter "cheap" or "fast".')
-    #User1 = User(start, end)
+    start = input('Enter you start location as a list with x, y coordinates. \n  E.g. Enter "[2,5]" for x-coordinate 2 and y-coordinate 5.')
+    end = input('Enter you destination as a list with x, y coordinates. \n  E.g. Enter "[2,5]" for x-coordinate 2 and y-coordinate 5.')
+    User1 = User(start, end)
+    User1.bestRoute()
+
