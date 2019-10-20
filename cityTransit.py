@@ -1,8 +1,7 @@
 class User:
-    def __init__(self, iLocation, fLocation, preference='fast'):
+    def __init__(self, iLocation, fLocation):
         self.iLocation = iLocation
         self.fLocation = fLocation
-        self.preference = preference
 
     def distance(self):
         iX = self.iLocation[0]
@@ -12,68 +11,47 @@ class User:
         dist = ((fX-iX)**2 + (fY-iY)**2)**0.5
         return dist
 
-    def nearest_stop(self, trans):
-        currenttrans = trans[0]
-        currentstop = currenttrans[0]
-        for tran in trans:
-            for stop in tran.stops:
-                if ((self.iLocation[0] - stop[0])**2 + (self.iLocation[1] - stop[1])**2) < ((self.iLocation[0] -stop[0])**2 + (self.iLocation[1] - currentstop[1]**2)):
-                    currenttrans = trans
-                    currentstop = stop
+    def nearest_stop(self, transportations):
         pass
 
 class Transportation:
-    def __init__(self, cost, speed, stops):
-        self.cost = cost
-        self.speed = speed
+    def __init__(self, stops):
         self.stops = stops
 
-    def travelTime(self, user):
-        # each transportation object has a list of stops, so the distance of the route is
-        # equal to the length of the list of stops, since each stop is one unit long
-        dist = user.distance()
-        time = self.speed/dist
-        return time
-    
-    def atIntersection(self, grid, x, y): #bool
-        #returns true if the location [x, y] on the grid has value '5'.
-        return grid[x, y] == 5
+    def intersectingRoute(self, transportation, all_transportations):
+        #returns the route that is intersecting with the passed route.
+        list = []
+        t1_stops = transportation.stops
+        for i in range(len(t1_stops)):
+            for j in range(len(all_transportations)):
+                for k in all_transportations:
+                    if t1_stops[i] == all_transportations[j].stops[k]:
+                        list.append(all_transportations[j])
+        return list
 
     def bestRoute(self, user, *trans):
         route = [] #route is a list of trains and buses that take the user to their destination
         list_of_transportations = [] #all trains and buses on the map
         for tran in trans:
             list_of_transportations.append(tran)
-        if user.preference == 'cheap':
-            cheapest = list_of_transportations[0]
-            nearest = user.nearest_stop(list_of_transportations)
-            for i in range(len(list_of_transportations)):
-                if user.nearest_stop() == list_of_transportations[i] and list_of_transportations[i].cost < cheapest.cost:
-                    cheapest = list_of_transportations[i]
-
-        else: #user.preference == 'fast'
-            #do something else
-            pass
-
+        nearest = user.nearest_stop(list_of_transportations)
         return route
 
 class Simulation:
-    grid = []
-    for i in range(295):
-        grid.append([0])
-    for x in grid:
-        for y in grid[x]:
-            grid[x][y] = 0
-    print(grid)
-    train1 = Transportation(4, 10, )
-    train2 = Transportation(6, 15, [])
-    train3 = Transportation(5, 12, [])
-    bus1 = Transportation(2, 6, [])
-    bus2 = Transportation(3, 7, [])
-    bus1 = Transportation(2, 6, [])
-    bus1 = Transportation(2, 6, [])
+    train1 = Transportation([[10, 14],[9,15],[8,16],[7,17],[6,18],[11,13],[11,12],[11,11],[11,10],
+                             [11,9],[12,9],[13,9],[14,9],[14,10],[14,11],[14,12],[14,13],[13,13],
+                             [12,13],[1,11],[2,11],[3,11],[4,11],[5,11],[6,11],[7,11],[8,11],[9,11],[10,11]])
+    train2 = Transportation([[14,0],[14,1],[14,2],[14,3],[14,4],[14,5],[14,6],[14,7],[14,8],[14,14],
+                             [14,15],[14,16],[14,17],[14,18],[14,19],[11,13],[11,12],[11,11],[11,10],
+                             [11,9],[12,9],[13,9],[14,9],[14,10],[14,11],[14,12],[14,13],[13,13],[12,13]])
+    train3 = Transportation([[11,13],[11,12],[11,11],[11,10],
+                                    [11,9],[12,9],[13,9],[14,9],[14,10],[14,11],[14,12],[14,13],[13,13],[12,13]])
+    # bus1 = Transportation([])
+    # bus2 = Transportation([])
+    # bus3 = Transportation([])
+    # bus4 = Transportation([])
 
-    start = input('Enter you start location as a list with x, y coordinates. \n  E.g. Enter "[2,5]" for x-coordinate 2 and y-coordinate 5.')
-    end = input('Enter you destination as a list with x, y coordinates. \n  E.g. Enter "[2,5]" for x-coordinate 2 and y-coordinate 5.')
-    preference = input('Do you want the cheapest or fastest way to get to your destination? Enter "cheap" or "fast".')
-    User1 = User(start, end, preference)
+    # start = input('Enter you start location as a list with x, y coordinates. \n  E.g. Enter "[2,5]" for x-coordinate 2 and y-coordinate 5.')
+    # end = input('Enter you destination as a list with x, y coordinates. \n  E.g. Enter "[2,5]" for x-coordinate 2 and y-coordinate 5.')
+    # preference = input('Do you want the cheapest or fastest way to get to your destination? Enter "cheap" or "fast".')
+    #User1 = User(start, end)
