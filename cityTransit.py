@@ -19,6 +19,7 @@ class User:
                 if ((self.iLocation[0] - stop[0])**2 + (self.iLocation[1] - stop[1])**2) < ((self.iLocation[0] -stop[0])**2 + (self.iLocation[1] - currentstop[1]**2)):
                     currenttrans = transportations
                     currentstop = stop
+        return [currenttrans, currentstop]
         pass
 
 class Transportation:
@@ -36,12 +37,25 @@ class Transportation:
                         list.append(all_transportations[j])
         return list
 
+    def transferRoute(self, user, point, prevTrans, *trans):
+        
+        for tran in trans:
+
+
+
     def bestRoute(self, user, *trans):
         route = [] #route is a list of trains and buses that take the user to their destination
         list_of_transportations = [] #all trains and buses on the map
         for tran in trans:
             list_of_transportations.append(tran)
-        nearest = user.nearest_stop(list_of_transportations)
+        nearestlist = user.nearest_stop(list_of_transportations)
+        currentTransit = nearestlist[0]
+        currentStop = nearestList[1]
+        for stop in currentTransit.stops:
+            transferRoute(self, user, user.iLocation, currentTransit)
+            
+
+        
 
         return route
 
