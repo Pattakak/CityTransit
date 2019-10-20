@@ -82,6 +82,7 @@ void renderObjects(Shader s) {
     glBindVertexArray(VAO0);
 
     s.use();
+    glBindVertexArray(l->getVAO());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
