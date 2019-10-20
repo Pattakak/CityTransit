@@ -12,7 +12,14 @@ class User:
         return dist
 
     def nearest_stop(self, transportations):
-        pass
+        currenttrans = transportations[0]
+        currentstop = currenttrans[0]
+        for tran in transportations:
+            for stop in tran.stops:
+                if ((self.iLocation[0] - stop[0])**2 + (self.iLocation[1] - stop[1])**2) < ((self.iLocation[0] -stop[0])**2 + (self.iLocation[1] - currentstop[1]**2)):
+                    currenttrans = transportations
+                    currentstop = stop
+        return [currenttrans, currentstop]
 
 class Transportation:
     def __init__(self, stops):
@@ -29,13 +36,22 @@ class Transportation:
                         list.append(all_transportations[j])
         return list
 
+    def transferRoute(self, user, point, prevTrans, *trans):
+        
+        for tran in trans:
+            pass
+
+
+
     def bestRoute(self, user, *trans):
-        route = [] #route is a list of trains and buses that take the user to their destination
         list_of_transportations = [] #all trains and buses on the map
         for tran in trans:
             list_of_transportations.append(tran)
-        nearest = user.nearest_stop(list_of_transportations)
-        return route
+        nearestlist = user.nearest_stop(list_of_transportations)
+        currentTransit = nearestlist[0]
+        currentStop = nearestlist[1]
+        for stop in currentTransit.stops:
+            transferRoute(self, user, user.iLocation, currentTransit)
 
 class Simulation:
     train1 = Transportation([[10, 14],[9,15],[8,16],[7,17],[6,18],[11,13],[11,12],[11,11],[11,10],
