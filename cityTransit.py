@@ -12,13 +12,6 @@ class User:
         return dist
 
     def nearest_stop(self, transportations):
-        currenttrans = transportations[0]
-        currentstop = currenttrans[0]
-        for tran in transportations:
-            for stop in tran.stops:
-                if ((self.iLocation[0] - stop[0])**2 + (self.iLocation[1] - stop[1])**2) < ((self.iLocation[0] -stop[0])**2 + (self.iLocation[1] - currentstop[1]**2)):
-                    currenttrans = transportations
-                    currentstop = stop
         pass
 
 class Transportation:
@@ -42,7 +35,6 @@ class Transportation:
         for tran in trans:
             list_of_transportations.append(tran)
         nearest = user.nearest_stop(list_of_transportations)
-
         return route
 
 class Simulation:
