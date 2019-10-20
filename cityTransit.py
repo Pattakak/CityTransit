@@ -35,11 +35,32 @@ class Transportation:
                     if t1_stops[i] == all_transportations[j].stops[k]:
                         list.append(all_transportations[j])
         return list
+    
+    def nearestStopToPoint(self, point):
+        nearestPoint = self.stops[0] #Init in case of emergency
+        nearestDistanceSq = (nearestPoint[0] - point[0])**2 + (nearestPoint[1] - point[1])**2
+        for stop in self.stops:
+            if (stop[0] - point[0])**2 + (stop[1] - point[1])**2 < nearestPoint:
+                nearestPoint = stop
+                nearestDistanceSq = (nearestPoint[0] - point[0])**2 + (nearestPoint[1] - point[1])**2
+
+    
+    def isIntersecting(self, point, tran):
+        for stop in tran.stops:
+            if (point == stop):
+                return True
+        return False
+
 
     def transferRoute(self, user, point, prevTrans, *trans):
         
+        nearestStop = point #Initialize the stops and transportations if we dont find anything in the for loop
+        currentTrans = prevTrans
+
+
         for tran in trans:
-            pass
+
+            
 
 
 
