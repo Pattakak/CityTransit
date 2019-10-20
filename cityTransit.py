@@ -13,6 +13,13 @@ class User:
         return dist
 
     def nearest_stop(self, trans):
+        currenttrans = trans[0]
+        currentstop = currenttrans[0]
+        for tran in trans:
+            for stop in tran.stops:
+                if ((self.iLocation[0] - stop[0])**2 + (self.iLocation[1] - stop[1])**2) < ((self.iLocation[0] -stop[0])**2 + (self.iLocation[1] - currentstop[1]**2)):
+                    currenttrans = trans
+                    currentstop = stop
         pass
 
 class Transportation:
@@ -27,7 +34,7 @@ class Transportation:
         dist = user.distance()
         time = self.speed/dist
         return time
-
+    
     def atIntersection(self, grid, x, y): #bool
         #returns true if the location [x, y] on the grid has value '5'.
         return grid[x, y] == 5
