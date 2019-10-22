@@ -47,6 +47,7 @@ class Vehicle:
         lst = []
         t1_stops = self.stops
         for i in range(len(t1_stops)):
+<<<<<<< HEAD
             for j in range(len(all_vehicles)):
                 for k in range(len(all_vehicles[j].stops)):
                     if t1_stops[i] == all_vehicles[j].stops[k]:
@@ -55,6 +56,45 @@ class Vehicle:
 
     def __str__(self):
         return self.name
+=======
+            for j in range(len(all_transportations)):
+                for k in all_transportations:
+                    if t1_stops[i] == all_transportations[j].stops[k]:
+                        list.append(all_transportations[j])
+        return list
+    
+    def nearestStopToPoint(self, point):
+        nearestPoint = self.stops[0] #Init in case of emergency
+        nearestDistanceSq = (nearestPoint[0] - point[0])**2 + (nearestPoint[1] - point[1])**2
+        for stop in self.stops:
+            if (stop[0] - point[0])**2 + (stop[1] - point[1])**2 < nearestPoint:
+                nearestPoint = stop
+                nearestDistanceSq = (nearestPoint[0] - point[0])**2 + (nearestPoint[1] - point[1])**2
+
+    
+    def isIntersecting(self, point, tran):
+        for stop in tran.stops:
+            if (point == stop):
+                return True
+        return False
+
+    def transferRoute(self, user, point, prevTrans, *trans):
+        
+        nearestStop = point #Initialize the stops and transportations if we dont find anything in the for loop
+        currentTrans = prevTrans
+
+
+        for tran in trans:
+
+            
+    def bestRoute(self, user, *trans):
+        route = [] #route is a list of trains and buses that take the user to their destination
+        list_of_transportations = [] #all trains and buses on the map
+        for tran in trans:
+            list_of_transportations.append(tran)
+        nearest = user.nearest_stop(list_of_transportations)
+        return route
+>>>>>>> ca9cd02b06a40bc0df31e4fe7595a1b3e8e10172
 
 class Simulation:
     train1 = Vehicle('Blue Line',
